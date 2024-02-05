@@ -687,6 +687,7 @@ var providerCapabilityChecks = []pairTypeCapability{
 	capabilityCheck("SRV", providers.CanUseSRV),
 	capabilityCheck("SSHFP", providers.CanUseSSHFP),
 	capabilityCheck("TLSA", providers.CanUseTLSA),
+	capabilityCheck("HTTPS", providers.CanUseHTTPS),
 
 	// DS needs special record-level checks
 	{

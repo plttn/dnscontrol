@@ -81,6 +81,9 @@ const (
 
 	// DocOfficiallySupported means it is actively used and maintained by stack exchange
 	DocOfficiallySupported
+
+	// CanUseHTTPS indicates the provider can handle HTTPS records
+	CanUseHTTPS
 )
 
 var providerCapabilities = map[string]map[Capability]bool{}
