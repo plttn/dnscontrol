@@ -427,6 +427,23 @@ var DS = recordBuilder('DS', {
 // DHCID(name,target, recordModifiers...)
 var DHCID = recordBuilder('DHCID');
 
+// HTTPS(name, priority, target, httpsParams)
+
+var HTTPS = recordBuilder('HTTPS', {
+    args: [
+        ['name', _.isString],
+        ['priority', _.isNumber],
+        ['target', _.isString],
+        ['httpsParams', _.isString],
+    ],
+    transform: function (record, args, modifiers) {
+        record.name = args.name;
+        record.httpspriority = args.priority;
+        record.target = args.target;
+        record.httpsparams = args.httpsParams;
+    },
+});
+
 // PTR(name,target, recordModifiers...)
 var PTR = recordBuilder('PTR');
 
@@ -868,11 +885,11 @@ function IGNORE(labelPattern, rtypePattern, targetPattern) {
 
 // IGNORE_NAME(name, rTypes)
 function IGNORE_NAME(name, rTypes) {
-  return IGNORE(name, rTypes)
+    return IGNORE(name, rTypes);
 }
 
 function IGNORE_TARGET(target, rType) {
-  return IGNORE("*", rType, target)
+    return IGNORE('*', rType, target);
 }
 
 // IMPORT_TRANSFORM(translation_table, domain)
@@ -1479,18 +1496,18 @@ function CAA_BUILDER(value) {
     }
 
     if (value.issue) {
-        var flag = function() {};
+        var flag = function () {};
         if (value.issue_critical) {
-          flag = CAA_CRITICAL;
+            flag = CAA_CRITICAL;
         }
         for (var i = 0, len = value.issue.length; i < len; i++)
             r.push(CAA(value.label, 'issue', value.issue[i], flag));
     }
 
     if (value.issuewild) {
-        var flag = function() {};
+        var flag = function () {};
         if (value.issuewild_critical) {
-          flag = CAA_CRITICAL;
+            flag = CAA_CRITICAL;
         }
         for (var i = 0, len = value.issuewild.length; i < len; i++)
             r.push(CAA(value.label, 'issuewild', value.issuewild[i], flag));

@@ -104,6 +104,8 @@ type RecordConfig struct {
 	DsAlgorithm      uint8             `json:"dsalgorithm,omitempty"`
 	DsDigestType     uint8             `json:"dsdigesttype,omitempty"`
 	DsDigest         string            `json:"dsdigest,omitempty"`
+	HTTPSPriority    uint16            `json:"httppriority,omitempty"`
+	HTTPSParams      string            `json:"httpparams,omitempty"`
 	LocVersion       uint8             `json:"locversion,omitempty"`
 	LocSize          uint8             `json:"locsize,omitempty"`
 	LocHorizPre      uint8             `json:"lochorizpre,omitempty"`
@@ -172,6 +174,8 @@ func (rc *RecordConfig) UnmarshalJSON(b []byte) error {
 		DsAlgorithm      uint8             `json:"dsalgorithm,omitempty"`
 		DsDigestType     uint8             `json:"dsdigesttype,omitempty"`
 		DsDigest         string            `json:"dsdigest,omitempty"`
+		HTTPSPriority    uint16            `json:"httppriority,omitempty"`
+		HTTPSParams      string            `json:"httpparams,omitempty"`
 		LocVersion       uint8             `json:"locversion,omitempty"`
 		LocSize          uint8             `json:"locsize,omitempty"`
 		LocHorizPre      uint8             `json:"lochorizpre,omitempty"`

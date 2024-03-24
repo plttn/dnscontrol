@@ -49,6 +49,9 @@ const (
 	// only for children records, not at the root of the zone.
 	CanUseDSForChildren
 
+	//CanUseHTTPS indicates the provider can handle HTTPS records
+	CanUseHTTPS
+
 	// CanUseLOC indicates whether service provider handles LOC records
 	CanUseLOC
 

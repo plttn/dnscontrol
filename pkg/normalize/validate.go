@@ -679,6 +679,7 @@ var providerCapabilityChecks = []pairTypeCapability{
 	capabilityCheck("AZURE_ALIAS", providers.CanUseAzureAlias),
 	capabilityCheck("CAA", providers.CanUseCAA),
 	capabilityCheck("DHCID", providers.CanUseDHCID),
+	capabilityCheck("HTTPS", providers.CanUseHTTPS),
 	capabilityCheck("LOC", providers.CanUseLOC),
 	capabilityCheck("NAPTR", providers.CanUseNAPTR),
 	capabilityCheck("PTR", providers.CanUsePTR),

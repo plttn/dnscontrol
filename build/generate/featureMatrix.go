@@ -80,6 +80,7 @@ func matrixData() *FeatureMatrix {
 		DomainModifierAlias  = "[`ALIAS`](functions/domain/ALIAS.md)"
 		DomainModifierCaa    = "[`CAA`](functions/domain/CAA.md)"
 		DomainModifierDnssec = "[`AUTODNSSEC`](functions/domain/AUTODNSSEC_ON.md)"
+		DomainModifierHttps  = "[`HTTPS`](functions/domain/HTTPS.md)"
 		DomainModifierLoc    = "[`LOC`](functions/domain/LOC.md)"
 		DomainModifierNaptr  = "[`NAPTR`](functions/domain/NAPTR.md)"
 		DomainModifierPtr    = "[`PTR`](functions/domain/PTR.md)"
@@ -104,6 +105,7 @@ func matrixData() *FeatureMatrix {
 			DomainModifierAlias,
 			DomainModifierCaa,
 			DomainModifierDnssec,
+			DomainModifierHttps,
 			DomainModifierLoc,
 			DomainModifierNaptr,
 			DomainModifierPtr,
@@ -194,6 +196,10 @@ func matrixData() *FeatureMatrix {
 		setCapability(
 			DomainModifierDs,
 			providers.CanUseDS,
+		)
+		setCapability(
+			DomainModifierHttps,
+			providers.CanUseHTTPS,
 		)
 		setCapability(
 			DomainModifierLoc,
