@@ -37,8 +37,11 @@ func NewDeSec(m map[string]string, metadata json.RawMessage) (providers.DNSServi
 }
 
 var features = providers.DocumentationNotes{
+	// The default for unlisted capabilities is 'Cannot'.
+	// See providers/capabilities.go for the entire list of capabilities.
 	providers.CanAutoDNSSEC:          providers.Can("deSEC always signs all records. When trying to disable, a notice is printed."),
 	providers.CanGetZones:            providers.Can(),
+	providers.CanConcur:              providers.Cannot(),
 	providers.CanUseAlias:            providers.Unimplemented("Apex aliasing is supported via new SVCB and HTTPS record types. For details, check the deSEC docs."),
 	providers.CanUseCAA:              providers.Can(),
 	providers.CanUseDS:               providers.Can(),
@@ -198,7 +201,7 @@ func (c *desecProvider) GetZoneRecordsCorrections(dc *models.DomainConfig, exist
 			}
 		} else {
 			//it must be an update or create, both can be done with the same api call.
-			ns := recordsToNative(desiredRecords[label], dc.Name)
+			ns := recordsToNative(desiredRecords[label])
 			if len(ns) > 1 {
 				panic("we got more than one resource record to create / modify")
 			}
@@ -213,19 +216,23 @@ func (c *desecProvider) GetZoneRecordsCorrections(dc *models.DomainConfig, exist
 			}
 		}
 	}
-	msg := fmt.Sprintf("Changes:\n%s", buf)
-	corrections = append(corrections,
-		&models.Correction{
-			Msg: msg,
-			F: func() error {
-				rc := rrs
-				err := c.upsertRR(rc, dc.Name)
-				if err != nil {
-					return err
-				}
-				return nil
-			},
-		})
+
+	// If there are changes, upsert them.
+	if len(rrs) > 0 {
+		msg := fmt.Sprintf("Changes:\n%s", buf)
+		corrections = append(corrections,
+			&models.Correction{
+				Msg: msg,
+				F: func() error {
+					rc := rrs
+					err := c.upsertRR(rc, dc.Name)
+					if err != nil {
+						return err
+					}
+					return nil
+				},
+			})
+	}
 
 	// NB(tlim): This sort is just to make updates look pretty. It is
 	// cosmetic.  The risk here is that there may be some updates that

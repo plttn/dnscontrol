@@ -76,6 +76,7 @@ func matrixData() *FeatureMatrix {
 		OfficialSupport      = "Official Support" // vs. community supported
 		ProviderDNSProvider  = "DNS Provider"
 		ProviderRegistrar    = "Registrar"
+		ProviderThreadSafe   = "Concurrency Verified"
 		DomainModifierAlias  = "[`ALIAS`](functions/domain/ALIAS.md)"
 		DomainModifierCaa    = "[`CAA`](functions/domain/CAA.md)"
 		DomainModifierDnssec = "[`AUTODNSSEC`](functions/domain/AUTODNSSEC_ON.md)"
@@ -91,7 +92,6 @@ func matrixData() *FeatureMatrix {
 		DomainModifierHttps  = "[`HTTPS`](functions/domain/HTTPS.md)"
 		DualHost             = "dual host"
 		CreateDomains        = "create-domains"
-		NoPurge              = "[`NO_PURGE`](functions/domain/NO_PURGE.md)"
 		GetZones             = "get-zones"
 	)
 
@@ -101,6 +101,7 @@ func matrixData() *FeatureMatrix {
 			OfficialSupport,
 			ProviderDNSProvider,
 			ProviderRegistrar,
+			ProviderThreadSafe,
 			DomainModifierAlias,
 			DomainModifierCaa,
 			DomainModifierDnssec,
@@ -116,7 +117,7 @@ func matrixData() *FeatureMatrix {
 			DomainModifierHttps,
 			DualHost,
 			CreateDomains,
-			NoPurge,
+			//NoPurge,
 			GetZones,
 		},
 	}
@@ -171,6 +172,10 @@ func matrixData() *FeatureMatrix {
 			ProviderRegistrar,
 			false,
 			func() bool { return providers.RegistrarTypes[providerName] != nil },
+		)
+		setCapability(
+			ProviderThreadSafe,
+			providers.CanConcur,
 		)
 		setCapability(
 			DomainModifierAlias,
@@ -239,17 +244,17 @@ func matrixData() *FeatureMatrix {
 			false,
 		)
 
-		// no purge is a freaky double negative
-		cantUseNOPURGE := providers.CantUseNOPURGE
-		if providerNotes[cantUseNOPURGE] != nil {
-			featureMap[NoPurge] = providerNotes[cantUseNOPURGE]
-		} else {
-			featureMap.SetSimple(
-				NoPurge,
-				false,
-				func() bool { return !providers.ProviderHasCapability(providerName, cantUseNOPURGE) },
-			)
-		}
+		//		// no purge is a freaky double negative
+		//		cantUseNOPURGE := providers.CantUseNOPURGE
+		//		if providerNotes[cantUseNOPURGE] != nil {
+		//			featureMap[NoPurge] = providerNotes[cantUseNOPURGE]
+		//		} else {
+		//			featureMap.SetSimple(
+		//				NoPurge,
+		//				false,
+		//				func() bool { return !providers.ProviderHasCapability(providerName, cantUseNOPURGE) },
+		//			)
+		//		}
 		matrix.Providers[providerName] = featureMap
 	}
 	return matrix
